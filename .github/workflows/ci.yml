@@ -1,0 +1,32 @@
+name: Simple CI
+
+on:
+  push:
+    branches: [ main ]
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+      
+    - name: Check README exists
+      run: |
+        echo "Checking if README.md exists..."
+        if [ -f "README.md" ]; then
+          echo "✅ README.md found!"
+          echo "📄 Content preview:"
+          head -5 README.md
+        else
+          echo "❌ README.md not found"
+          exit 1
+        fi
+        
+    - name: Simple validation
+      run: |
+        echo "🔍 Running basic checks..."
+        echo "✅ Workflow is working!"
+        echo "📊 Files in repository:"
+        ls -la
