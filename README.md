@@ -1,4 +1,4 @@
-# Créér un environnment avec Uv
+# Créér un environnment avec uv, pthon,...
 
 ```bash
 #Environemnt
@@ -296,5 +296,133 @@ Une fois lancée poser les questions
 # Suggest a template for my feature change
 
 ```
+# Module 2: Module 2: GitHub Actions Integration
+```bash
+#workflow
+GitHub Actions → Webhook → JSON File → MCP Tools → tiny-agents → user
+#Implémentation
+le webhook server -> déjà fourni(D:\CoursMCP\mcp-course\projects\unit3\github-actions-integration\starter\webhook_server.py
+)
+# Implémenter les outils du serveur mcp : 
+D:\CoursMCP\mcp-course\projects\unit3\github-actions-integration\starter\server.py
+(attention avec les commandes git pour l\'utilisation du mm terminal)
+#faire la configuration de l'agent 
+{
+  "model": "user.jan-nano",
+  "endpointUrl": "http://localhost:8000/api/",
+  "servers": [
+    {
+      "type": "stdio",
+      "command": "python",
+      "args": [
+        "-u",
+        "server.py"
+      ]
+    }
+  ]
+}
+
+#  Lance le serveur webhook :
+(mcp_env) PS D:\CoursMCP> cd  "d:\CoursMCP\mcp-course\projects\unit3\github-actions-integration\starter"; python webhook_server.py
+#lancer le serveur mcp 
+(mcp_env) PS D:\CoursMCP\mcp-course\projects\unit3\github-actions-integration\starter> tiny-agents run agent_config.json
+Agent loaded with 5 tools:
+ • analyze_file_changes
+ • get_pr_templates
+ • suggest_template
+
+#lemonade server
+PS D:\CoursMCP> lemonade-server serve
+>> 
+# Cloudflare Tunnel (pour GitHub) :
+cloudflared tunnel --url http://localhost:8080
+On doit combiner l’URL Cloudflare Tunnel +  endpoint.
+https://deutsche-alternate-undefined-hundred.trycloudflare.com/webhook/github
+
+⚠️ NB: l\'url de cloudflared est temporaire si on redémarre cloudeflared ça change donc il faut le changer aussi sur github
+
+#Configuratio github 
+Dans repo :
+Settings → Webhooks → Add webhook
+URL → L'URL Cloudflare + /webhook/github
+Content type → application/json
+Events → Workflow runs, Check runs, Push, etc.
+
+# Devolopper un petit workflow avec la vérification du readme pour tester
+pusher le workflow et le readme
 
 
+
+
+Tester l'agent MCP complet avec des questions
+» Call get_workflow_status for Simple CI
+<Tool epfNp9F7SOpIYsoWuBKO2pLFvUNJ4rJg>get_workflow_status {"workflow_name":"Simple CI"}
+
+Tool epfNp9F7SOpIYsoWuBKO2pLFvUNJ4rJg
+{
+  "workflows": {
+    "Simple CI": {
+      "name": "Simple CI",
+      "status": "completed",
+      "conclusion": "success",
+      "last_run": "2025-11-14T11:27:19.025573",
+      "repository": "bachir00/mcp_course",
+      "run_id": 19363165948,
+      "html_url": "https://github.com/bachir00/mcp_course/actions/runs/19363165948",
+      "head_branch": "main",
+      "triggering_actor": "bachir00"}},
+  "workflow_count": 1,
+  "filter": "Simple CI",
+  "last_updated": "2025-11-14T12:25:30.086457"
+}
+
+The workflow "Simple CI" has been completed successfully. The last run was on 2025-11-14 at 11:27:19.025573, and the status is "success". The workflow was triggered by the user "bachir00" and is part of the repository "bachir00/mcp_course".
+
+If you need any further information or have additional questions, feel free to ask.
+»
+```
+# Module 3: Slack Notification
+```bash
+#Workflow 
+GitHub Actions → Webhooks → MCP Server → Slack Notifications
+                    ↓
+               github_events.json → Analyse intelligente → Messages formatés
+
+#configuration de slack webhook
+Allez sur https://api.slack.com/apps
+Créez une nouvelle app → "From scratch"
+Choisissez votre workspace
+Allez dans "Features(sidebar)" → "Incoming Webhooks"
+Activez les incoming webhooks, Cliquez "Add New Webhook to Workspace"
+Choisissez un canal ( #dev-notifications par exemple 
+)
+
+Copiez l\'URL du webhook () :
+
+fais un post 
+
+curl -X POST -H 'Content-type: application/json' --data '{"text":"Hello from MCP Course!"}' "VOTRE_URL_WEBHOOK"
+
+Attention  valider le payload selon votre terminal cmd,powershell,linux, 
+
+Si ça fonctionne, vous verrez le message apparaître dans votre canal Slack !
+
+
+#IMPORTANT : L'URL webhook est sensible - ne la mettez jamais dans votre code !
+# Dans PowerShell | python env, définissez la variable d'environnement :
+$env:SLACK_WEBHOOK_URL="https://hooks.slack.com/services/VOTRE/URL/WEBHOOK"
+
+
+#Implementation
+D:\CoursMCP\mcp-course\projects\unit3\slack-notification\starter\server.py
+
+#lancer le webhook
+D:\CoursMCP\mcp-course\projects\unit3\slack-notification\starter\webhook_server.py
+#configure le l'agent 
+Meme chose que module 2, le mm github_events, le cloud --> on utilise les resultats just pour envoyer un message via slack
+
+
+En résume on ajoute un outil d'envoie de message après avoir configuré le slack
+Important -> les petits llms peuvent avoir des problèms sur de long prompt(donc faire une réduction et puis ressembler certains outils)
+
+```

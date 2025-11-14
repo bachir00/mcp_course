@@ -1,0 +1,14 @@
+{
+  "model": "user.jan-nano",
+  "endpointUrl": "http://localhost:8000/api/",
+  "servers": [
+    {
+      "type": "stdio",
+      "command": "C:\\Program Files\\nodejs\\npx.cmd",
+      "args": [
+        "mcp-remote",
+        "http://localhost:7860/gradio_api/mcp/sse"
+      ]
+    }
+  ]
+}

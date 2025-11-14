@@ -1,0 +1,50 @@
+import gradio as gr
+import os
+from dotenv import load_dotenv
+
+from mcp import StdioServerParameters
+from smolagents import InferenceClientModel, CodeAgent, ToolCollection, MCPClient
+
+# Charger les variables d'environnement depuis le fichier .env
+load_dotenv()
+
+try: 
+    mcp_client = MCPClient(
+        {"url": "https://abidlabs-mcp-tool-http.hf.space/gradio_api/mcp/sse", "transport": "sse",} # This is the MCP Client we created in the previous section
+    )
+    tools = mcp_client.get_tools()
+
+    # Affinage des outils disponibles
+    print("Outils disponibles dans l'agent MCP:")
+    for tool in tools:
+        print(f" - {tool.name}: {tool.description}")
+    print(f"Total tools: {len(tools)}")
+
+
+    # Vérifier si le token HF existe (maintenant chargé depuis .env)
+    hf_token = os.getenv("HF_TOKEN")
+    if not hf_token:
+        print("❌ Token HF_TOKEN non trouvé dans le fichier .env!")
+        print("🔧 Vérifiez que le fichier .env contient: HF_TOKEN=votre_token")
+        exit(1)
+
+    print("✅ Token HF chargé depuis .env")
+    model = InferenceClientModel(token=hf_token)
+    agent = CodeAgent(tools=[*tools], model=model)
+
+
+    demo = gr.ChatInterface(
+        fn=lambda message, history: str(agent.run(message)),
+        type="messages",
+        examples=["Prime factorization of 68"],
+        title="Agent with MCP Tools",
+        description="This is a simple agent that uses MCP tools to answer questions."
+    )
+
+    demo.launch()
+finally:
+    mcp_client.disconnect()
+
+
+# Testing the tolls 
+# Quelle est la factorisation première de 68 ?

@@ -1,0 +1,135 @@
+# ===== Python =====
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+share/python-wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+MANIFEST
+.specstory
+.gradio
+
+
+# ===== Virtual Environments =====
+mcp_env/
+venv/
+node_modules/
+env/
+ENV/
+env.bak/
+venv.bak/
+.venv/
+
+# ===== Environment Variables (SENSIBLE!) =====
+.env
+.env.local
+.env.production
+.env.staging
+*.env
+
+# ===== IDE et Éditeurs =====
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.DS_Store
+Thumbs.db
+
+# ===== Logs =====
+*.log
+logs/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# ===== Données générées et temporaires =====
+github_events.json
+*.json.backup
+temp/
+tmp/
+.tmp/
+
+# ===== Configuration locale =====
+agent_config.json
+claud.json
+
+# ===== Certificats et clés =====
+*.pem
+*.key
+*.crt
+*.cer
+*.p12
+*.pfx
+
+# ===== Images et médias lourds =====
+*.mp4
+*.avi
+*.mov
+*.mkv
+*.webm
+*.zip
+*.rar
+*.7z
+*.tar.gz
+
+# ===== Cache et build =====
+.cache/
+.pytest_cache/
+.coverage
+htmlcov/
+.tox/
+.nox/
+.coverage.*
+coverage.xml
+*.cover
+*.py,cover
+.hypothesis/
+
+# ===== OS =====
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# ===== Node.js (si utilisé) =====
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+package-lock.json
+yarn.lock
+
+# ===== Jupyter Notebook =====
+.ipynb_checkpoints/
+
+# ===== Spécifique au projet MCP =====
+# Webhooks et événements
+**/github_events.json
+**/webhook_events.json
+
+# Configuration agents locaux
+**/agent_config.json
+tiny-agents.log
+
+# Tests et validation
+test_results/
+validation_output/
